@@ -14,15 +14,16 @@ class ArtSpaceApp extends StatelessWidget {
         appBar: AppBar(
           title: const Text('Digital Art Space'),
         ),
-        body: Container(
+        body: SingleChildScrollView(
           padding: const EdgeInsets.all(16.0),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-
               // Artwork Image
               Image.asset(
-                'assets/artwork_1.png',
-                height: 300,
+                'assets/wheat_field_with_cypresses.png',
+                height: 280,
+                fit: BoxFit.contain,
               ),
 
               const SizedBox(height: 20),
@@ -52,8 +53,9 @@ class ArtSpaceApp extends StatelessWidget {
 
               // Second Artwork
               Image.asset(
-                'assets/artwork_2.png',
+                'assets/takashi_murakami_art.jpeg',
                 height: 220,
+                fit: BoxFit.contain,
               ),
 
               const SizedBox(height: 12),
@@ -82,8 +84,7 @@ class ArtSpaceApp extends StatelessWidget {
 
               // Buttons
               Row(
-                mainAxisAlignment:
-                    MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   ElevatedButton(
                     onPressed: () {},
