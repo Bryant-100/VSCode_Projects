@@ -41,6 +41,8 @@ flutter:
   assets:
     - assets/flowers_smile_faces.jpeg
     - assets/wheat_field_with_cypresses.png
+    - assets/utagawa_hiroshige_1797_1858.png
+    - assets/the_artists_garden.png
   # To add Flutter specific assets to your application, add an assets section,
   # like this:
   # assets:
