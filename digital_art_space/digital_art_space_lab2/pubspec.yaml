@@ -39,7 +39,7 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
-    - assets/takashi_murakami_art.jpeg
+    - assets/flowers_smile_faces.jpeg
     - assets/wheat_field_with_cypresses.png
   # To add Flutter specific assets to your application, add an assets section,
   # like this:
