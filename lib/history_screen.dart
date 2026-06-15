@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 class HistoryScreen extends StatelessWidget {
-  const HistoryScreen({super.key, required this.history});
+  const HistoryScreen({
+    super.key,
+    required this.history});
 
   final List<String> history;
 
