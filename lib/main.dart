@@ -1,108 +1,46 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:mortgage_calculator_provider_app/mortgage_provider.dart';
 
-import 'mortgage.dart';
-import 'mortgage_edit_screen.dart';
+void main() {
+  runApp(
+    ChangeNotifierProvider(
+      create: (_) => MortgageProvider(),
+      child: const MyApp(),
+    ),
+  );
+}
 
-void main() => runApp(const MortgageApp());
+Widget build(BuildContext context) {
+  return MaterialApp(
+    title: 'Mortgage Calculator',
+    home: const MyHomePage(),
+  );
+}
 
-class MortgageApp extends StatelessWidget {
-  const MortgageApp({super.key});
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Mortgage Calculator',
-      theme: ThemeData(primarySwatch: Colors.blue),
-      home: const MortgageSummaryScreen(),
+      home: const MyHomePage(),
     );
   }
 }
 
-class MortgageSummaryScreen extends StatefulWidget {
-  const MortgageSummaryScreen({super.key});
-
-  @override
-  State<MortgageSummaryScreen> createState() => _MortgageSummaryScreenState();
-}
-
-class _MortgageSummaryScreenState extends State<MortgageSummaryScreen> {
-  Mortgage _mortgage = Mortgage();
-
-  Future<void> _editMortgage() async {
-    final updatedMortgage = await Navigator.push<Mortgage>(
-      context,
-      MaterialPageRoute(
-        builder: (context) => EditMortgageScreen(
-          mortgage: Mortgage(
-            amount: _mortgage.amount,
-            years: _mortgage.years,
-            rate: _mortgage.rate,
-          ),
-        ),
-      ),
-    );
-
-    if (updatedMortgage != null) {
-      setState(() {
-        _mortgage = updatedMortgage;
-      });
-    }
-  }
-
-  Widget _buildSummaryRow(String label, String value) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(label, style: const TextStyle(fontSize: 16)),
-          Text(value, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-        ],
-      ),
-    );
-  }
+class MyHomePage extends StatelessWidget {
+  const MyHomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Mortgage Summary')),
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              'Mortgage Summary',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 16),
-            Card(
-              elevation: 2,
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _buildSummaryRow('Home Price', _mortgage.formattedAmount()),
-                    _buildSummaryRow('Interest Rate', '${(_mortgage.rate * 100).toStringAsFixed(2)}%'),
-                    _buildSummaryRow('Loan Term', '${_mortgage.years} years'),
-                    const Divider(height: 32),
-                    _buildSummaryRow('Monthly Payment', _mortgage.formattedMonthlyPayment()),
-                    _buildSummaryRow('Total Payment', _mortgage.formattedTotalPayment()),
-                  ],
-                ),
-              ),
-            ),
-            const SizedBox(height: 24),
-            ElevatedButton(
-              onPressed: _editMortgage,
-              child: const Padding(
-                padding: EdgeInsets.symmetric(vertical: 14, horizontal: 16),
-                child: Text('Edit Mortgage Data', style: TextStyle(fontSize: 16)),
-              ),
-            ),
-          ],
-        ),
+      appBar: AppBar(
+        title: const Text('Mortgage Calculator'),
+      ),
+      body: const Center(
+        child: Text('Please enter your mortgage details:'),
       ),
     );
   }
