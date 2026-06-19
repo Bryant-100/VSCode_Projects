@@ -1,0 +1,88 @@
+import 'package:flutter/material.dart';
+import  'package:provider/provider.dart';
+import 'edit_mortgage_screen.dart';
+
+void main() => runApp(const MortgageApp());
+
+class MortgageApp extends StatelessWidget {
+  const MortgageApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return ChangeNotifierProvider<MortgageData>(
+      create: (context) => MortgageData(),
+      builder: (context, child) => const MaterialApp(
+        home: HomeScreen(),
+      ),
+    );
+  }
+}
+
+class MortgageData extends ChangeNotifier {
+  double _loanAmount = 250000.0;
+  double _interestRate = 3.5;
+  int _termYears = 30;
+
+  double get loanAmount => _loanAmount;
+  double get interestRate => _interestRate;
+  int get termYears => _termYears;
+
+  double get monthlyPayment {
+    final double monthlyRate = (_interestRate / 100) / 12;
+    final int numberOfPayments = _termYears * 12;
+    if (monthlyRate == 0) return _loanAmount / numberOfPayments;
+    return _loanAmount *
+        (monthlyRate * Math.pow(1 + monthlyRate, numberOfPayments)) /
+        (Math.pow(1 + monthlyRate, numberOfPayments) - 1);
+  }
+
+  void updateDetails(double amount, double rate, int years) {
+    _loanAmount = amount;
+    _interestRate = rate;
+    _termYears = years;
+    notifyListeners();
+  }
+}
+
+class Math {
+  static double pow(double base, int exp) =>
+      List.filled(exp, base).reduce((a, b) => a * b);
+}
+
+class HomeScreen extends StatelessWidget {
+  const HomeScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Mortgage Calculator')),
+      body: Center(
+        child: Consumer<MortgageData>(
+          builder: (context, data, child) => Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text('Monthly Payment', style: TextStyle(fontSize: 18)),
+              Text(
+                '\$${data.monthlyPayment.toStringAsFixed(2)}',
+                style: const TextStyle(fontSize: 48, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 20),
+              Text('Loan: \$${data.loanAmount.toInt()}'),
+              Text('Rate: ${data.interestRate}%'),
+              Text('Term: ${data.termYears} years'),
+            ],
+          ),
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => EditMortgageScreen(),
+         ), 
+        ),
+        child: const Icon(Icons.edit),
+      ),
+    );
+  }
+}
